@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM node:18-alpine AS production
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app .
+RUN npm install -g serve
+COPY --from=builder /app/build ./build
 EXPOSE 3000
-CMD ["node", "index.js"]
+CMD ["serve", "-s", "build", "-l", "3000"]
